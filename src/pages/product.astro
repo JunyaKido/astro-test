@@ -1,0 +1,23 @@
+---
+import Layout from "../components/Layout.astro";
+import { getProducts } from "../lib/shopify";
+
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+const headers = Astro.request.headers;
+const ip = headers.get("x-vercel-forwarded-for") || Astro.clientAddress;
+const products = await getProducts({ buyerIP: ip });
+---
+
+<Layout title="Astroテスト">
+  <ul class="prose">
+    {
+      products.map((product) => (
+        <li>
+          <a href="">
+            <h2>{product?.title}</h2>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
