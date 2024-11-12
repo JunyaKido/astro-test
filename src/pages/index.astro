@@ -1,39 +1,7 @@
 ---
 import Layout from "../components/Layout.astro";
-
-import { contentfulClient } from "../lib/contentful";
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-import type { BlogPost } from "../lib/contentful";
-
-const entries = await contentfulClient.getEntries<BlogPost>({
-  content_type: "catalog",
-});
-
-console.log(entries);
-
-const posts = entries.items.map((item) => {
-  const { title, date, description, slug } = item.fields;
-  return {
-    title,
-    slug,
-    // description,
-    // date: new Date(date).toLocaleDateString(),
-  };
-});
 ---
 
 <Layout title="Astroテスト">
-  <ul class="prose">
-    {
-      posts.map((post) => (
-        <li>
-          <a href={`/posts/${post.slug}/`}>
-            <h2>{post.title}</h2>
-          </a>
-          {/* <time>{post.date}</time>
-          <p>{post.description}</p> */}
-        </li>
-      ))
-    }
-  </ul>
+ test
 </Layout>
