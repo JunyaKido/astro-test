@@ -1,0 +1,496 @@
+---
+import Layout from "../components/Layout.astro";
+import { contentfulClient } from "../lib/contentful";
+import type {
+  TypeCatalogSkeleton,
+  TypeColumnSkeleton,
+} from "../types/contentful";
+
+import { Image } from "astro:assets";
+
+const catalogEntries = await contentfulClient.getEntries<TypeCatalogSkeleton>({
+  content_type: "catalog",
+  // "fields.shop.sys.contentType.sys.id": "shop", // リファレンス先のコンテンツタイプID
+  // "fields.shop.fields.slug": "aoyama",
+});
+
+const catalogPost = catalogEntries.items.map((item) => {
+  const { title, entryDate, img, shop } = item.fields;
+  const id = item.sys.id;
+  return {
+    title,
+    entryDate,
+    img,
+    id,
+    shop,
+  };
+});
+const latestHairCatalog = catalogPost.slice(0, 5);
+// console.log(latestHairCatalog);
+// console.log(JSON.stringify(latestHairCatalog, null, 4));
+
+const columnEntries = await contentfulClient.getEntries<TypeColumnSkeleton>({
+  content_type: "column",
+});
+
+const columnPost = columnEntries.items.map((item) => {
+  const { title, img } = item.fields;
+  const id = item.sys.id;
+  return {
+    title,
+    img,
+    id,
+  };
+});
+---
+
+<Layout title="Astroテスト">
+  <section id="">
+    <div class="flex items-start justify-between">
+      <div class="flex text-tiny gap-2 ml-2">
+        <span>|</span>
+        <a href="">求人情報</a>
+        <span>|</span>
+        <a href="">お問い合わせ</a>
+        <span>|</span>
+        <a href="">アクセス</a>
+        <span>|</span>
+        <a href="">表参道店はこちら</a>
+        <span>|</span>
+        <a href="">神宮前店はこちら</a>
+        <span>|</span>
+        <a href="">柏店はこちら</a>
+        <span>|</span>
+        <a href="">銀座店はこちら</a>
+        <span>|</span>
+        <a href="">東京店はこちら</a>
+        <span>|</span>
+      </div>
+      <div class="flex items-start">
+        <a href=""><img class="mx-auto" src="/head-insta.webp" /></a>
+        <a href=""><img class="mx-auto" src="/head-insta.webp" /></a>
+        <a href=""><img class="mx-auto" src="/head-fb.webp" /></a>
+        <a href=""><img class="mx-auto" src="/head-twitter.webp" /></a>
+        <a href=""><img class="mx-auto" src="/head-web.webp" /></a>
+        <a href=""><img class="mx-auto" src="/head-coupon.webp" /></a>
+      </div>
+    </div>
+    <div class="text-center -mt-10">
+      <a href=""
+        ><img
+          width="108"
+          height="50"
+          class="mx-auto"
+          src="/logo-aoyama.png"
+        /></a
+      >
+    </div>
+    <ul
+      class="menu flex items-center justify-center font-medium gap-4 text-xs mt-10"
+    >
+      <li class="top_on"><a href="/aoyama/">TOP</a></li>
+      <li class="collection">
+        <a href="http://www.au-be.jp/collection/">COLLECTION</a>
+      </li>
+      <li class="concept">
+        <a href="http://www.au-be.jp/au-beconcept/">CONCEPT</a>
+      </li>
+      <li class="haircatalog">
+        <a href="http://www.au-be.jp/catalog/">HAIRCATALOG</a>
+      </li>
+      <li class="coupon">
+        <a href="https://b-merit.jp/web/login/?shop_code=c4PJaR" target="_blank"
+          >COUPON</a
+        >
+      </li>
+      <li class="press">
+        <a href="http://www.au-be.jp/au-bepress/">PRESS</a>
+      </li>
+      <li class="studioworks">
+        <a href="http://www.au-be.jp/studioworks/">STUDIOWORKS</a>
+      </li>
+      <li class="gallery">
+        <a href="http://www.au-be.jp/au-begallery/">GALLERY</a>
+      </li>
+      <li class="movie">
+        <a href="http://www.au-be.jp/au-bemovie/">MOVIE</a>
+      </li>
+      <li class="h2_menu">
+        <a
+          href="https://869502.b-merit.jp/c4PJaR/web/reserve1/?from_coupon=1"
+          target="_blank">MENU</a
+        >
+      </li>
+      <li class="staff"><a href="/aoyama/staff/">STAFF</a></li>
+      <li class="blogmenu"><a href="/aoyama/blog/">BLOG</a></li>
+    </ul>
+    <div class="border-t border-b-2 h-2 mt-2 border-black"></div>
+  </section>
+  <section id="">
+    <div class="bs-container max-w-[960px] pt-10 pb-24 space-y-14">
+      <div class="border-2 border-black p-1">
+        <div class="border px-7 pb-7 border-black">
+          <div class="text-center">
+            <h2
+              class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+            >
+              NEW COLLECTION
+            </h2>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-8 lg:gap-16">
+            <img src="/new-collection.webp" alt="" class="mx-auto" />
+            <div class="space-y-4 text-xs">
+              <p>[ 最新エノアコレクション ]</p>
+              <p>
+                エノアが提案するのは、ナチュラルではありながらも、個性をいかしたスタイル。<br
+                  class=""
+                />
+                力の抜けた居心地のいいスタイルを、季節ごとにご紹介。
+              </p>
+              <a href="" class="bg-black p-2 text-white inline-block"
+                >▶コレクションのリストはこちら</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-2 border-black p-1">
+        <div class="border px-7 pb-7 border-black">
+          <div class="text-center">
+            <h2
+              class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+            >
+              TECHNIQUE [ 弱酸性ダメージレスアイテム ]
+            </h2>
+          </div>
+          <p class="mb-3 text-xs flex justify-center">
+            エノアが開発段階から携わっている髪に優しい薬剤"弱酸性"、薬の解説からアレンジ方法まで、こだわりの技術を詳しく紹介します
+          </p>
+          <div class="grid lg:grid-cols-3">
+            <a href="" class="p-5 space-y-5">
+              <img src="/tec001.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                ストパーなのにノンアルカリ！弱酸性だから<br />
+                髪を傷めずに自然にクセを伸ばせる
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5 border-x">
+              <img src="/tec002.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                毛髪ダメージをほとんど与えない、<br />
+                進化系・弱酸性デジパーはアレンジ自在！
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5">
+              <img src="/tec003.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                カラーを繰り返すと髪は痛む！の<br />
+                常識を覆す髪に優しいカラーリング
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5 border-y">
+              <img src="/tec004.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                美容室のトリートメント＝ケアは終了！<br class="" />
+                本気のケアなら"美容師 × 自分"の最強タッグ
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5 border">
+              <img src="/tec005.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                "キレイ"は内と外からのケアが必要不可欠！<br />
+                自宅であなたを助ける最強アイテムを紹介
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5 border-y">
+              <img src="/tec006.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                知っていたら得をする、美容に関する<br />
+                まめ知識、お知らせを随時更新！
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5">
+              <img src="/tec007.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                トレンドヘアから鉄板ヘアまで幅広くご紹介♪<br />
+                "なりたいヘア"が見つかります!!
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5 border-x">
+              <img src="/tec008.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                どんなスタイルにも必須！綺麗を目指す人に<br />
+                髪質改善徹底プロデュース!!!
+              </p>
+            </a>
+            <a href="" class="p-5 space-y-5">
+              <img src="/tec009.webp" alt="" class="mx-auto" />
+              <p class="text-center text-xs">
+                悩んでいたいあれやこれを一気に解決<br />
+                髪にお困りのあなたは要チェック
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-2 border-black p-1">
+        <div class="border px-7 pb-7 border-black">
+          <div class="text-center">
+            <h2
+              class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+            >
+              HAIR CATALOG [ 最新ヘアカタログ ]
+            </h2>
+          </div>
+          <p class="mb-3 text-xs flex justify-center">
+            クール系からキュート系まで、最新のヘアスタイルを多数掲載！　日々更新されるヘアデザインで、あなたのお気に入りのスタイルがきっと見つかります！
+          </p>
+          <div class="relative max-w-2xl mx-auto">
+            <div
+              class="swiper-button-prev !w-5 aspect-square !flex after:hidden !left-auto !right-full -translate-x-1/2"
+            >
+              <img src="/catalog-arrow.svg" class="rotate-180" alt="" />
+            </div>
+            <div
+              class="swiper-button-next !w-5 aspect-square !flex after:hidden !right-auto !left-full translate-x-1/2"
+            >
+              <img src="/catalog-arrow.svg" alt="" />
+            </div>
+            <div class="swiper index-swiper">
+              <div class="swiper-wrapper">
+                {
+                  latestHairCatalog.map((post) => (
+                    <a class="swiper-slide" href={`/catalog/${post.id}`}>
+                      <div class="">
+                        <Image
+                          src={post.img[0].fields.file.url}
+                          alt={post.title}
+                          width={post.img[0].fields.file.details.image.width}
+                          height={post.img[0].fields.file.details.image.height}
+                        />
+                      </div>
+                      <h2 class="line-clamp-1">{post.title}</h2>
+                      {/* <time datetime={post.entryDate}>
+                        {new Date(post.entryDate).toLocaleDateString("ja-JP")}
+                      </time> */}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-5 gap-5">
+        <div class="border-2 lg:col-span-3 border-black p-1">
+          <div class="border px-7 pb-7 h-full border-black">
+            <div class="text-center">
+              <h2
+                class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+              >
+                MOVIE [ ヘアスタイル動画 ]
+              </h2>
+            </div>
+            <p class="mb-3 text-xs flex justify-center">
+              スタイルの撮影風景やアレンジ方法など、ビューティーへのヒントがいっぱいつまった動画集
+            </p>
+            <a href="" class="block mb-3">
+              <img src="/mov.webp" alt="" />
+            </a>
+            <div class="text-center">
+              <a href="" class="hover:underline">▶ムービーのリストはこちら</a>
+            </div>
+          </div>
+        </div>
+        <div class="border-2 lg:col-span-2 border-black p-1">
+          <div class="border px-7 pb-7 h-full border-black">
+            <div class="text-center">
+              <h2
+                class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+              >
+                PRESS
+              </h2>
+            </div>
+            <p class="mb-3 text-xs text-center">
+              [ プレス情報 ]<br />
+            </p>
+            <p class="mb-5 text-xs text-center">
+              最先端のヘアスタイルを中心に様々なメディアでも<br
+                class=""
+              />取り上げられる<br class="" />エノアのプレス情報を紹介致します
+            </p>
+            <div class="overflow-auto pb-5 relative">
+              <div class="flex gap-3 w-max">
+                <a href="" class="hover:underline space-y-3 w-28">
+                  <img src="/thumb001.webp" alt="" class="" />
+                  <p class="text-center text-tiny">
+                    【HAIR MODE】<br />2015年4月号<br />株式会社女性モード社
+                  </p>
+                </a>
+                <a href="" class="hover:underline space-y-3 w-28">
+                  <img src="/thumb001.webp" alt="" class="" />
+                  <p class="text-center text-tiny">
+                    【HAIR MODE】<br />2015年4月号<br />株式会社女性モード社
+                  </p>
+                </a>
+                <a href="" class="hover:underline space-y-3 w-28">
+                  <img src="/thumb001.webp" alt="" class="" />
+                  <p class="text-center text-tiny">
+                    【HAIR MODE】<br />2015年4月号<br />株式会社女性モード社
+                  </p>
+                </a>
+                <a href="" class="hover:underline space-y-3 w-28">
+                  <img src="/thumb001.webp" alt="" class="" />
+                  <p class="text-center text-tiny">
+                    【HAIR MODE】<br />2015年4月号<br />株式会社女性モード社
+                  </p>
+                </a>
+                <a href="" class="hover:underline space-y-3 w-28">
+                  <img src="/thumb001.webp" alt="" class="" />
+                  <p class="text-center text-tiny">
+                    【HAIR MODE】<br />2015年4月号<br />株式会社女性モード社
+                  </p>
+                </a>
+                <a href="" class="hover:underline space-y-3 w-28">
+                  <img src="/thumb001.webp" alt="" class="" />
+                  <p class="text-center text-tiny">
+                    【HAIR MODE】<br />2015年4月号<br />株式会社女性モード社
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-2 border-black p-1">
+        <div class="border px-7 pb-7 h-full border-black">
+          <div class="text-center">
+            <h2
+              class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+            >
+              STAFF BLOG [ 最新スタッフブログ ]
+            </h2>
+          </div>
+          <div class="lg:grid-cols-3 gap-10 grid">
+            {
+              columnPost.map((post) => (
+                <a class="border p-1" href={`/column/${post.id}`}>
+                  <Image
+                    src={post.img.fields.file.url}
+                    alt={post.title}
+                    width={post.img.fields.file.details.image.width}
+                    height={post.img.fields.file.details.image.height}
+                  />
+                  <div class="p-5">
+                    <h2>{post.title}</h2>
+                    <div class="border-t flex justify-center border-dotted">
+                      {/* <time datetime={post.entryDate}>
+                        {new Date(post.entryDate).toLocaleDateString("ja-JP")}
+                      </time> */}
+                      <p class="text-tiny">View 00000</p>
+                    </div>
+                  </div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+      <div class="border-2 border-black p-1">
+        <div class="border px-7 pb-7 border-black">
+          <div class="text-center">
+            <h2
+              class="text-center text-lg font-bold bg-white px-5 inline-block -translate-y-4"
+            >
+              INFORMATION
+            </h2>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-8">
+            <img src="/shop-aoyama.webp" alt="" class="mx-auto" />
+            <div class="grid lg:grid-cols-5">
+              <div class="space-y-4 lg:col-span-3 text-xs">
+                <p class="text-sm">【ENORE 青山店】</p>
+                <p>
+                  〒150-0001 渋谷区神宮前 3-11-7-B1F<br class="" />
+                  ※地下鉄　表参道駅　A2出口より徒歩8分
+                </p>
+                <p>
+                  11:00 - 20:00 [ 月曜日/水曜日 ]<br />
+                  12:00 - 21:00 [ 木曜日/金曜日 ]<br />
+                  10:00 - 19:00 [ 土日祝 ]<br />
+                  定休日 : 火曜日
+                </p>
+                <p>tel: 03-6447-0904</p>
+              </div>
+              <div
+                class="lg:col-span-2 relative flex flex-col justify-between items-end"
+              >
+                <a
+                  href=""
+                  class="bg-black px-2 py-1 relative top-0 text-xs right-0 text-white inline-block"
+                  >▶サロン情報はこちら</a
+                >
+                <div class="grid grid-cols-5 relative bottom-0">
+                  <a href=""><img class="mx-auto" src="/head-blog.webp" /></a>
+                  <a href=""><img class="mx-auto" src="/head-insta.webp" /></a>
+                  <a href=""><img class="mx-auto" src="/head-insta.webp" /></a>
+                  <a href=""><img class="mx-auto" src="/head-fb.webp" /></a>
+                  <a href=""><img class="mx-auto" src="/head-twitter.webp" /></a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative">
+        <img src="/top-recruit.webp" alt="" class="w-full" />
+        <div class="absolute bottom-10 text-right right-10 text-sm">
+          <span class="block"
+            >ENOREでは一緒に働いて頂けるスタッフを募集しています<br
+            />ENOREは青山のトップスタイリストが08年に柏で始動させたサロン<br
+            />11年に表参道店、15年には青山店もOPEN<br
+            />日本のヘアファッション界をリードする<br
+            />新鮮な質の高い技術をしっかり学べるサロンです<br
+            />私たちとENOREを創り上げてくれる方を<br
+            />スタッフ一同お待ちしております
+          </span>
+          <a
+            href="https://enore-recruit.jp/"
+            target="_blank"
+            class="bg-black px-2 mt-2 py-1 relative top-0 text-xs right-0 text-white inline-block"
+            >▶︎求人詳細はこちら</a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    import Swiper from "swiper";
+    import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+
+    import "swiper/css/bundle";
+
+    const swiper = new Swiper(".index-swiper", {
+      // direction: 'vertical',
+      loop: true,
+      slidesPerView: 4,
+      spaceBetween: 20,
+
+      pagination: {
+        el: ".swiper-pagination",
+      },
+
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+
+      scrollbar: {
+        el: ".swiper-scrollbar",
+      },
+
+      modules: [Navigation, Pagination, Scrollbar],
+    });
+  </script>
+</Layout>

@@ -1,24 +1,98 @@
 ---
 import Layout from "../components/Layout.astro";
+
+import { contentfulClient } from "../lib/contentful";
+import type {
+  TypeCatalogSkeleton,
+  TypeColumnSkeleton,
+} from "../types/contentful";
+
+import { Image } from "astro:assets";
+
+const columnEntries = await contentfulClient.getEntries<TypeColumnSkeleton>({
+  content_type: "column",
+});
+
+const columnPost = columnEntries.items.map((item) => {
+  const { title, img } = item.fields;
+  const id = item.sys.id;
+  return {
+    title,
+    img,
+    id,
+  };
+});
+
+
+const catalogEntries = await contentfulClient.getEntries<TypeCatalogSkeleton>({
+  content_type: "catalog",
+});
+
+const catalogPost = catalogEntries.items.map((item) => {
+  const { title, entryDate, img,slug } = item.fields;
+  const id = item.sys.id;
+  return {
+    title,
+    slug,
+    img,
+    entryDate
+    // description,
+    // date: new Date(date).toLocaleDateString(),
+  };
+});
+const latestHairCatalog = catalogPost.slice(0,5);
 ---
 
 <Layout title="Astroテスト">
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
- test
+  <p class="text-center">トップページ</p>
+  <ul>
+    {
+      columnPost.map((post) => (
+        <li>
+          <a href={`/column/${post.id}`}>
+            <div class="grid grid-cols-3">
+              {/* <Image
+                src={post.img.fields.file.url}
+                alt={post.title}
+                width={post.img.fields.file.details.image.width}
+                height={post.img.fields.file.details.image.height}
+              /> */}
+            </div>
+            <h2>{post.title}</h2>
+            {/* <time datetime={post.entryDate}>
+              {new Date(post.entryDate).toLocaleDateString("ja-JP")}
+            </time> */}
+          </a>
+          {/* <time>{post.date}</time>
+          <p>{post.description}</p> */}
+        </li>
+      ))
+    }
+  </ul>
+  <div class="bs-container">
+    <div class="text-center text-3xl">ヘアカタログ</div>
+    <div class="text-center">美容室エノアの人気ヘアカタログです。</div>
+    <ul class="grid grid-cols-5 gap-5">
+      {
+        latestHairCatalog.map((post) => (
+          <li>
+            <a href={`/catalog/${post.id}`}>
+              <div class="">
+                <Image
+                  src={post.img[0].fields.file.url}
+                  alt={post.title}
+                  width={post.img[0].fields.file.details.image.width}
+                  height={post.img[0].fields.file.details.image.height}
+                />
+              </div>
+              <h2>{post.title}</h2>
+              <time datetime={post.entryDate}>
+                {new Date(post.entryDate).toLocaleDateString("ja-JP")}
+              </time>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </Layout>

@@ -1,0 +1,85 @@
+---
+import Layout from "../../components/Layout.astro";
+import { contentfulClient } from "../../lib/contentful";
+import type {
+  TypeCatalogSkeleton,
+  TypeLengthSkeleton,
+} from "../../types/contentful";
+
+import { Image } from "astro:assets";
+
+//ヘアカタログ
+const catalogEntries = await contentfulClient.getEntries<TypeCatalogSkeleton>({
+  content_type: "catalog",
+});
+
+const catalogPosts = catalogEntries.items.map((item) => {
+  const { title, entryDate, img } = item.fields;
+  const id = item.sys.id;
+  return {
+    title,
+    entryDate,
+    img,
+    id,
+  };
+});
+console.log(catalogPosts);
+
+
+//
+const lengthEntries = await contentfulClient.getEntries<TypeLengthSkeleton>({
+  content_type: "length",
+});
+
+const lengthPosts = lengthEntries.items.map((item) => {
+  const { name, slug } = item.fields;
+  const id = item.sys.id;
+  return {
+    name,
+    slug,
+    id,
+  };
+});
+---
+
+<Layout title="Astroテスト">
+  <div class="bs-container">
+    <div class="grid lg:grid-cols-4">
+      <div class="lg:col-span-3">
+        {
+          catalogPosts.map((post) => (
+            <a href={`/catalog/${post.id}`}>
+              <div class="">
+                <Image
+                  src={post.img[0].fields.file.url}
+                  alt={post.title}
+                  width={post.img[0].fields.file.details.image.width}
+                  height={post.img[0].fields.file.details.image.height}
+                />
+              </div>
+              <h2>{post.title}</h2>
+              <time datetime={post.entryDate}>
+                {new Date(post.entryDate).toLocaleDateString("ja-JP")}
+              </time>
+            </a>
+          ))
+        }
+      </div>
+      <div class="">
+        <p class="">レングス</p>
+        <ul>
+          {
+            lengthPosts.map((post) => (
+              <li>
+                <a href={`/posts/${post.slug}`}>
+                  <div class="grid grid-cols-3" />
+                  <h2>{post.name}</h2>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -10,11 +10,15 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/alpinejs": "^0.4.0",
     "@astrojs/check": "^0.9.4",
     "@astrojs/tailwind": "^5.1.2",
     "@contentful/rich-text-html-renderer": "^16.6.10",
+    "@types/alpinejs": "^3.13.11",
+    "alpinejs": "^3.14.6",
     "astro": "^4.16.3",
     "contentful": "^11.1.4",
+    "swiper": "^11.1.15",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.6.3",
     "zod": "^3.23.8"

@@ -1,0 +1,29 @@
+---
+import { contentfulClient } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import Layout from "../../components/Layout.astro";
+import type { TypeCatalogSkeleton } from "../../types/contentful";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const entries = await contentfulClient.getEntries<TypeCatalogSkeleton>({
+    content_type: "catalog",
+  });
+  const pages = entries.items.map((item) => ({
+    params: { id: item.sys.id },
+    props: {
+      title: item.fields.title,
+    },
+  }));
+  return pages;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <div class="prose">
+    <h1>{title}</h1>
+  </div>
+</Layout>
