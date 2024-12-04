@@ -7,7 +7,7 @@ import alpinejs from '@astrojs/alpinejs';
 
 // https://astro.build/config
 export default defineConfig({
-  // output:"server",
+  output:"server",
   integrations: [tailwind({
     applyBaseStyles :false,
   }), alpinejs()]
